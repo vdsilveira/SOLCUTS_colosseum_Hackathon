@@ -5,6 +5,6 @@
 	path = AI_agente-Oracle_colosseum_Hackathon
 	url = https://github.com/vdsilveira/AI_agente-Oracle_colosseum_Hackathon.git
 
-[submodule "api-data-videos"]
-	path = api-data-videos
+[submodule "API_videos_colosseum_Hackathon"]
+	path = API_videos_colosseum_Hackathon
 	url = https://github.com/Alisson-tech/Backend-views-Solana.git
