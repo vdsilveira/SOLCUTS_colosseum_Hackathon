@@ -1,0 +1,6 @@
+# Dependências dos testes de integração SolCuts
+# Instale com: pip install -r tests/requirements.txt
+
+pytest>=8.0
+pytest-timeout>=2.3
+requests>=2.31
