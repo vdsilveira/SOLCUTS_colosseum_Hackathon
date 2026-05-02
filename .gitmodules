@@ -8,3 +8,6 @@
 [submodule "API_videos_colosseum_Hackathon"]
 	path = API_videos_colosseum_Hackathon
 	url = https://github.com/Alisson-tech/Backend-views-Solana.git
+[submodule "core-api"]
+	path = core-api
+	url = git@github.com:rayangustavo/solcuts-core-api.git
