@@ -1,0 +1,37 @@
+# ==============================================================
+# SolCuts — Configuração de Topologia dos Serviços
+# ==============================================================
+# Para cada serviço, defina:
+#
+#   MODE=local    → o serviço será incluído no docker-compose.yaml
+#                   e construído/executado localmente via Docker.
+#
+#   MODE=remote   → o serviço NÃO será incluído no docker-compose.yaml.
+#                   O endpoint abaixo será usado pelos demais serviços.
+#
+# Edite este arquivo e execute ./setup.sh para regenerar o
+# docker-compose.yaml com a topologia atualizada.
+# ==============================================================
+
+# --------------------------------------------------------------
+# Metrics API (Backend-views-Solana)
+# Responsável por buscar views/likes/comments do YouTube.
+# --------------------------------------------------------------
+METRICS_API_MODE=remote
+METRICS_API_PORT=8000
+METRICS_API_REMOTE_URL=https://backend-views-solana.onrender.com
+
+# --------------------------------------------------------------
+# Core API
+# API REST que expõe Pools, Entries e Audit Logs para o frontend.
+# --------------------------------------------------------------
+CORE_API_MODE=local
+CORE_API_PORT=8001
+CORE_API_REMOTE_URL=https://core-api.example.com
+
+# --------------------------------------------------------------
+# Oracle Agent
+# Agente de IA que valida vídeos e atualiza scores na Solana.
+# Não expõe porta HTTP — roda como worker em background.
+# --------------------------------------------------------------
+ORACLE_MODE=local
