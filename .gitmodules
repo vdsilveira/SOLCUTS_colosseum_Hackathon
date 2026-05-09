@@ -14,3 +14,6 @@
 [submodule "Dashboard-solana-front"]
 	path = Dashboard-solana-front
 	url = https://github.com/Alisson-tech/Dashboard-solana-front
+[submodule "api-data-videos"]
+	path = api-data-videos
+	url = https://github.com/Alisson-tech/Backend-views-Solana
