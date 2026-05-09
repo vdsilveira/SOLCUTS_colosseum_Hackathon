@@ -11,3 +11,6 @@
 [submodule "core-api"]
 	path = core-api
 	url = git@github.com:rayangustavo/solcuts-core-api.git
+[submodule "Dashboard-solana-front"]
+	path = Dashboard-solana-front
+	url = https://github.com/Alisson-tech/Dashboard-solana-front
