@@ -45,6 +45,10 @@ services:
       - POLL_INTERVAL_SECONDS=${POLL_INTERVAL_SECONDS:-300}
       - DATABASE_URL=${ORACLE_DATABASE_URL:-sqlite:///oracle.db}
       - ALERT_WEBHOOK_URL=${ALERT_WEBHOOK_URL:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - WHISPER_MODEL_SIZE=${WHISPER_MODEL_SIZE:-tiny}
+      - WHISPER_DEVICE=${WHISPER_DEVICE:-cpu}
     volumes:
       - oracle-data:/app/data
     restart: unless-stopped
