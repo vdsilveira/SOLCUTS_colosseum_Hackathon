@@ -1,0 +1,58 @@
+# =============================================================
+# SolCuts - Docker Compose (GERADO AUTOMATICAMENTE pelo setup.sh)
+# NÃO EDITE MANUALMENTE — edite services.conf e rode ./setup.sh
+# =============================================================
+
+services:
+  # ---- Core API (Pools, Entries, Audit Logs) -----------------
+  core-api:
+    build:
+      context: ./core-api
+      dockerfile: Dockerfile
+    container_name: solcuts-core-api
+    ports:
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-sqlite+aiosqlite:///./solcuts.db}
+      - CORS_ORIGINS=${CORS_ORIGINS:-["http://localhost:3000"]}
+    volumes:
+      - core-api-data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+
+  # ---- Oracle Agent (Validação + Solana CPI) -----------------
+  oracle:
+    build:
+      context: ./AI_agente-Oracle_colosseum_Hackathon
+      dockerfile: Dockerfile
+    container_name: solcuts-oracle
+    environment:
+      - METRICS_API_URL=https://backend-views-solana.onrender.com
+      - APP_API_KEY=${APP_API_KEY}
+      - SOLANA_RPC_URL=${SOLANA_RPC_URL:-https://api.devnet.solana.com}
+      - PROGRAM_ID=${PROGRAM_ID}
+      - ORACLE_PUBLIC_KEY=${ORACLE_PUBLIC_KEY}
+      - ORACLE_PRIVATE_KEY=${ORACLE_PRIVATE_KEY}
+      - TRANSCRIPT_MIN_SCORE=${TRANSCRIPT_MIN_SCORE:-0.70}
+      - FRAME_SIMILARITY_THRESHOLD=${FRAME_SIMILARITY_THRESHOLD:-0.70}
+      - FRAME_MIN_MATCHES=${FRAME_MIN_MATCHES:-3}
+      - FRAME_TOTAL_SAMPLES=${FRAME_TOTAL_SAMPLES:-5}
+      - POLL_INTERVAL_SECONDS=${POLL_INTERVAL_SECONDS:-60}
+      - DATABASE_URL=${ORACLE_DATABASE_URL:-sqlite:///oracle.db}
+      - ALERT_WEBHOOK_URL=${ALERT_WEBHOOK_URL:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+    volumes:
+      - oracle-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  core-api-data:
+    driver: local
+  oracle-data:
+    driver: local
