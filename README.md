@@ -4,30 +4,32 @@ SolCuts is a decentralized protocol on Solana focused on the Creator Economy. It
 
 This version is **fully hardened** against fraud, supports multiple clips per editor, and uses an ultra-scalable individual claim model.
 
+[View Detailed Project Flows](PROJECT_FLOWS.md)
+
 ---
 
 ## 🏛️ Architecture Overview
 
-Este protocolo utiliza uma arquitetura com um **Backend Tradicional (Core API)** focado em domínios, permitindo escalabilidade para múltiplos clientes.
+This protocol uses an architecture with a **Traditional Backend (Core API)** focused on domains, allowing scalability for multiple clients.
 
 ```mermaid
 flowchart TD
-    %% Atores
-    Influencer([Influenciador])
-    Editor([Editor de Vídeo])
-    ExternalAPI([APIs Externas\nYouTube Data, etc.])
+    %% Actors
+    Influencer([Influencer])
+    Editor([Video Editor])
+    ExternalAPI([External APIs\nYouTube Data, etc.])
 
     %% Clients
-    subgraph Clients ["Aplicações Cliente (Consumidores)"]
-        Frontend["🌐 Frontend Web\n(React / Next.js)"]
-        MobileApp["📱 App Mobile\n(Futuro)"]
+    subgraph Clients ["Client Applications (Consumers)"]
+        Frontend["🌐 Web Frontend\n(React / Next.js)"]
+        MobileApp["📱 Mobile App\n(Future)"]
     end
 
-    %% Backend Tradicional
-    subgraph CoreBackend ["Core API & Indexer (Backend Tradicional)"]
+    %% Traditional Backend
+    subgraph CoreBackend ["Core API & Indexer (Traditional Backend)"]
         RestAPI["⚙️ RESTful API\n(NestJS / FastAPI)"]
         IndexerWorker["🔄 Blockchain Indexer Worker\n(Event Listener)"]
-        PostgreSQL[("🗄️ Banco de Dados Relacional\n(PostgreSQL: Pools, Logs)")]
+        PostgreSQL[("🗄️ Relational Database\n(PostgreSQL: Pools, Logs)")]
     end
 
     %% Blockchain
@@ -35,45 +37,45 @@ flowchart TD
         Solana["⛓️ Smart Contract\n(Anchor / Rust)"]
     end
 
-    %% Microsserviços Python
-    subgraph OffChain ["Microsserviços de Validação (IA)"]
-        Oracle["🤖 Agente Oráculo de IA\n(Python)"]
-        MetricsAPI["⚡ Microsserviço de Métricas\n(FastAPI)"]
+    %% Python Microservices
+    subgraph OffChain ["Validation Microservices (AI)"]
+        Oracle["🤖 AI Oracle Agent\n(Python)"]
+        MetricsAPI["⚡ Metrics Microservice\n(FastAPI)"]
     end
 
-    %% Interações Usuário -> Clientes
-    Influencer -- "Interage" --> Frontend
-    Editor -- "Interage" --> Frontend
-    Editor -. "Interage" .-> MobileApp
+    %% Interactions User -> Clients
+    Influencer -- "Interacts" --> Frontend
+    Editor -- "Interacts" --> Frontend
+    Editor -. "Interacts" .-> MobileApp
 
-    %% Clientes -> Backend Tradicional (Leitura)
-    Frontend -- "Consulta REST (Busca Pools,\nLê Motivos de Fraude)" --> RestAPI
-    MobileApp -. "Consulta REST" .-> RestAPI
-    RestAPI -- "Lê Dados Genéricos" --> PostgreSQL
+    %% Clients -> Traditional Backend (Read)
+    Frontend -- "REST Query (Fetch Pools,\nRead Fraud Reasons)" --> RestAPI
+    MobileApp -. "REST Query" .-> RestAPI
+    RestAPI -- "Reads Generic Data" --> PostgreSQL
 
-    %% Clientes -> Blockchain (Escrita)
-    Frontend -- "Transações RPC (create_pool,\njoin_pool, claim)" --> Solana
+    %% Clients -> Blockchain (Write)
+    Frontend -- "RPC Transactions (create_pool,\njoin_pool, claim)" --> Solana
 
-    %% Sincronização Blockchain -> Backend
-    Solana -. "Dispara Eventos (Websockets / Polling)" .-> IndexerWorker
-    IndexerWorker -- "Salva Cópia (Indexação)" --> PostgreSQL
+    %% Synchronization Blockchain -> Backend
+    Solana -. "Triggers Events (Websockets / Polling)" .-> IndexerWorker
+    IndexerWorker -- "Saves Copy (Indexing)" --> PostgreSQL
 
-    %% Oráculo Workflow
-    Solana -. "Oráculo Escuta\nNovas Inscrições" .-> Oracle
-    Oracle -- "1. IA Valida (Transcrições, Frames)" --> ExternalAPI
+    %% Oracle Workflow
+    Solana -. "Oracle Listens to\nNew Submissions" .-> Oracle
+    Oracle -- "1. AI Validates (Transcripts, Frames)" --> ExternalAPI
     
-    %% Oráculo integrando com o Banco Centralizado do Backend
-    Oracle -- "2. Salva Trilha de Auditoria\n(Logs de Fraude/Falha)" --> PostgreSQL
+    %% Oracle integrating with the Centralized Backend Database
+    Oracle -- "2. Saves Audit Trail\n(Fraud/Failure Logs)" --> PostgreSQL
     
-    %% Oráculo + Métricas
-    Oracle -- "3. Solicita métricas\nde vídeos válidos" --> MetricsAPI
+    %% Oracle + Metrics
+    Oracle -- "3. Requests metrics\nfor valid videos" --> MetricsAPI
     MetricsAPI -- "Fetch Real-time Data" --> ExternalAPI
-    MetricsAPI -- "Retorna JSON" --> Oracle
+    MetricsAPI -- "Returns JSON" --> Oracle
 
-    %% Oráculo Escrita
-    Oracle -- "4. Atualiza Score On-chain\n(update / slash / close)" --> Solana
+    %% Oracle Write
+    Oracle -- "4. Updates Score On-chain\n(update / slash / close)" --> Solana
 
-    %% Estilos
+    %% Styles
     classDef missing fill:#ffe6e6,stroke:#ff0000,stroke-width:2px,stroke-dasharray: 5 5,color:#000;
     classDef external fill:#f0f0f0,stroke:#666,stroke-width:1px,color:#000;
     classDef solana fill:#14F195,stroke:#000,stroke-width:2px,color:#000;
@@ -93,12 +95,12 @@ flowchart TD
     class ExternalAPI external;
 ```
 
-### Detalhamento do Fluxo
+### Flow Details
 
-1. **Escrita na Blockchain:** Os clientes (Web ou Mobile) comunicam-se diretamente com o Smart Contract via RPC, usando as carteiras dos usuários para assinar transações financeiras e de mudança de estado.
-2. **Leitura Indexada:** O **Indexer Worker** escuta a rede Solana e copia dados para o **PostgreSQL**. Os aplicativos listam pools consultando a **RESTful API**, que responde via banco de dados sem sobrecarregar a blockchain.
-3. **Auditoria Centralizada:** Quando o **Oráculo de IA** detecta uma fraude, os detalhes técnicos são gravados diretamente na tabela de logs dentro do **PostgreSQL**, compartilhada com a Core API.
-4. **Clientes Autônomos:** A Core API expõe os dados. Cabe ao Frontend interpretar o `status: FRAUD_CHANNEL` e notificar o usuário de forma adequada.
+1. **On-Chain Write:** Clients (Web or Mobile) communicate directly with the Smart Contract via RPC, using user wallets to sign financial and state-changing transactions.
+2. **Indexed Read:** The **Indexer Worker** listens to the Solana network and copies data to **PostgreSQL**. Applications list pools by querying the **RESTful API**, which responds via the database without overloading the blockchain.
+3. **Centralized Audit:** When the **AI Oracle** detects fraud, technical details are written directly to the logs table within **PostgreSQL**, shared with the Core API.
+4. **Autonomous Clients:** The Core API exposes the data. It is up to the Frontend to interpret `status: FRAUD_CHANNEL` and notify the user appropriately.
 
 ### Account PDAs
 
@@ -143,80 +145,80 @@ Pools define weighted scoring:
 
 ## 🚀 Setup Guide (Docker Compose)
 
-Este guia explica como configurar e subir todos os componentes do projeto SolCuts com **Docker Compose**.
+This guide explains how to configure and start all components of the SolCuts project using **Docker Compose**.
 
 ### Quick Start
 
 ```bash
-# 1. Gere o .env com as chaves necessárias
+# 1. Generate .env with the required keys
 ./setup.sh
 
-# 2. Edite o .env e insira sua YOUTUBE_API_KEY (obrigatório)
+# 2. Edit .env and insert your YOUTUBE_API_KEY (required)
 nano .env
 
-# 3. Suba tudo
+# 3. Start everything
 docker compose up --build
 ```
 
-### O que o `setup.sh` faz
+### What `setup.sh` does
 
-| Etapa | Descrição |
-|-------|-----------|
-| 1 | Cria `.env` na raiz a partir de `.env.example` |
-| 2 | Gera `APP_API_KEY` compartilhada (Oracle ↔ Metrics API) |
-| 3 | Sincroniza `PROGRAM_ID` do `Anchor.toml` |
-| 4 | Gera Oracle Keypair via script Python |
-| 5 | Valida e mostra o resumo da configuração |
+| Step | Description |
+|------|-----------|
+| 1 | Creates `.env` in the root from `.env.example` |
+| 2 | Generates shared `APP_API_KEY` (Oracle ↔ Metrics API) |
+| 3 | Synchronizes `PROGRAM_ID` from `Anchor.toml` |
+| 4 | Generates Oracle Keypair via Python script |
+| 5 | Validates and shows the configuration summary |
 
-> **Dica**: Use `./setup.sh --force` para recriar o .env e regenerar todas as chaves.
+> **Tip**: Use `./setup.sh --force` to recreate the .env and regenerate all keys.
 
-### Serviços Docker
+### Docker Services
 
-| Serviço | Porta | Descrição |
+| Service | Port | Description |
 |---------|-------|-----------|
-| `metrics-api` | `8000` | Busca métricas de vídeo (YouTube) |
-| `core-api` | `8001` | API REST para Pools, Entries, Audit Logs |
-| `oracle` | — | Agente IA que valida e atualiza scores on-chain |
+| `metrics-api` | `8000` | Fetches video metrics (YouTube) |
+| `core-api` | `8001` | REST API for Pools, Entries, Audit Logs |
+| `oracle` | — | AI Agent that validates and updates scores on-chain |
 
-### Variáveis de Ambiente
+### Environment Variables
 
-Todas ficam no **`.env` da raiz** do projeto. O Docker Compose lê automaticamente deste arquivo.
+All are located in the **root `.env`** of the project. Docker Compose automatically reads from this file.
 
-| Variável | Componente | Obrigatória | Descrição |
+| Variable | Component | Required | Description |
 |----------|-----------|-------------|-----------|
-| `APP_API_KEY` | Oracle + Metrics | ✅ | Chave compartilhada para autenticação interna |
-| `YOUTUBE_API_KEY` | Metrics | ✅ | Chave da YouTube Data API (Google Cloud) |
-| `SOLANA_RPC_URL` | Oracle | ✅ | Endpoint RPC Solana (devnet) |
-| `PROGRAM_ID` | Oracle | ✅ | ID do smart contract Anchor |
-| `ORACLE_PUBLIC_KEY` | Oracle | ✅ | Chave pública do oráculo |
-| `ORACLE_PRIVATE_KEY` | Oracle | ✅ | Chave privada do oráculo |
-| `DATABASE_URL` | Core API | ⚙️ | URL do banco de dados (default: SQLite) |
-| `CORS_ORIGINS` | Core API | ⚙️ | Origens permitidas para CORS |
+| `APP_API_KEY` | Oracle + Metrics | ✅ | Shared key for internal authentication |
+| `YOUTUBE_API_KEY` | Metrics | ✅ | YouTube Data API Key (Google Cloud) |
+| `SOLANA_RPC_URL` | Oracle | ✅ | Solana RPC Endpoint (devnet) |
+| `PROGRAM_ID` | Oracle | ✅ | Anchor smart contract ID |
+| `ORACLE_PUBLIC_KEY` | Oracle | ✅ | Oracle public key |
+| `ORACLE_PRIVATE_KEY` | Oracle | ✅ | Oracle private key |
+| `DATABASE_URL` | Core API | ⚙️ | Database URL (default: SQLite) |
+| `CORS_ORIGINS` | Core API | ⚙️ | Allowed origins for CORS |
 
-### Comandos Úteis
+### Useful Commands
 
 ```bash
-# Subir em background
+# Start in the background
 docker compose up --build -d
 
-# Ver logs de todos os serviços
+# View logs for all services
 docker compose logs -f
 
-# Ver logs de um serviço específico
+# View logs for a specific service
 docker compose logs -f oracle
 
-# Parar tudo
+# Stop everything
 docker compose down
 
-# Parar e remover volumes (reset completo)
+# Stop and remove volumes (full reset)
 docker compose down -v
 ```
 
-### Configuração Manual Restante
+### Remaining Manual Configuration
 
-Após rodar o `setup.sh`, você ainda precisa:
-1. **YouTube API Key**: Obtenha em [Google Cloud Console](https://console.cloud.google.com/) e coloque em `.env`.
-2. **Smart Contract**: `cd programs_colosseum_Hackathon && anchor build && anchor deploy` (fora do Docker).
+After running `setup.sh`, you still need to:
+1. **YouTube API Key**: Get it from the [Google Cloud Console](https://console.cloud.google.com/) and place it in `.env`.
+2. **Smart Contract**: `cd programs_colosseum_Hackathon && anchor build && anchor deploy` (outside of Docker).
 
 ---
 
@@ -296,9 +298,9 @@ anchor test
 │   │   └── Cargo.toml
 │   ├── tests/               # Integration tests
 │   └── migrations/          # Anchor migrations
-├── core-api/                # API REST que expõe Pools e Entradas
-├── Backend-views-Solana/    # Microsserviço de Métricas
-└── AI_agente-Oracle_colosseum_Hackathon/ # Agente Oráculo IA
+├── core-api/                # REST API that exposes Pools and Entries
+├── Backend-views-Solana/    # Metrics Microservice
+└── AI_agente-Oracle_colosseum_Hackathon/ # AI Oracle Agent
 ```
 
 ---
