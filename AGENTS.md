@@ -7,7 +7,10 @@ This repo is a **git submodule container** — the actual code lives in submodul
 | Submodule | Path | Description |
 |-----------|------|-------------|
 | `programs_colosseum_Hackathon` | `programs_colosseum_Hackathon/` | Solana on-chain program (Anchor) |
-| `AI_agente-Oracle` | `AI_agente-Oracle_colosseum_Hackathon/` | Off-chain video validation agent |
+| `AI_agente-Oracle_colosseum_Hackathon` | `AI_agente-Oracle_colosseum_Hackathon/` | Off-chain video validation agent |
+| `DB_CORE_API_colosseum_Hackathon` | `DB_CORE_API_colosseum_Hackathon/` | REST API backend (FastAPI) |
+| `DApp_Frontend_colosseum_Hackathon` | `DApp_Frontend_colosseum_Hackathon/` | Next.js web application |
+| `API_videos_colosseum_Hackathon` | `API_videos_colosseum_Hackathon/` | Metrics microservice (YouTube) |
 
 **Each submodule has its own `AGENTS.md`** — read those for detailed per-project guidance.
 

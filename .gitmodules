@@ -8,12 +8,9 @@
 [submodule "API_videos_colosseum_Hackathon"]
 	path = API_videos_colosseum_Hackathon
 	url = git@github.com:Alisson-tech/Backend-views-Solana.git
-[submodule "core-api"]
-	path = core-api
+[submodule "DB_CORE_API_colosseum_Hackathon"]
+	path = DB_CORE_API_colosseum_Hackathon
 	url = git@github.com:rayangustavo/solcuts-core-api.git
-[submodule "Dashboard-solana-front"]
-	path = Dashboard-solana-front
+[submodule "DApp_Frontend_colosseum_Hackathon"]
+	path = DApp_Frontend_colosseum_Hackathon
 	url = https://github.com/Alisson-tech/Dashboard-solana-front
-[submodule "api-data-videos"]
-	path = api-data-videos
-	url = https://github.com/Alisson-tech/Backend-views-Solana

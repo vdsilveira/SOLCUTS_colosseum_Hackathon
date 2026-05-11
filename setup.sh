@@ -239,7 +239,7 @@ cat >> "$COMPOSE_FILE" <<CORE
   # ---- Core API (Pools, Entries, Audit Logs) -----------------
   core-api:
     build:
-      context: ./core-api
+      context: ./DB_CORE_API_colosseum_Hackathon
       dockerfile: Dockerfile
     container_name: solcuts-core-api
     ports:

@@ -7,7 +7,7 @@ This document details all the end-to-end flows of the **SolCuts** project, from 
 ## 🌊 Implemented Flows
 
 ### 1. Creation and Setup Flow (Creator/Influencer)
-1. **Wallet Connection**: The user connects to the `Dashboard-solana-front` with their Solana wallet.
+1. **Wallet Connection**: The user connects to the `DApp_Frontend_colosseum_Hackathon` with their Solana wallet.
 2. **Profile Initialization**: If it is the first access, the user initializes their profile (`initialize_user`) by linking their channel IDs.
 3. **Stake Deposit**: The user deposits a minimum stake amount (`deposit_stake`) to be able to participate and create pools.
 4. **Pool Creation**: The creator creates a new "Video Pool" (`create_pool`), providing:
@@ -101,7 +101,7 @@ sequenceDiagram
 
 ### 5. Metrics Update Flow (Oracle & Metrics API)
 1. **Constant Fetching**: The Oracle periodically fetches active pools.
-2. **External Collection**: The Oracle makes batch requests to the **Metrics API** (`api-data-videos`) fetching real-time data (Views, Likes, Comments) for each validated entry.
+2. **External Collection**: The Oracle makes batch requests to the **Metrics API** (`API_videos_colosseum_Hackathon`) fetching real-time data (Views, Likes, Comments) for each validated entry.
 3. **On-Chain Update**: The Oracle calculates the score based on the pool's weights and executes the `update_metrics` instruction on Solana, updating the score of the entries on-chain.
 
 ```mermaid
@@ -156,7 +156,7 @@ Despite the robust infrastructure and the fact that most of the contracts and lo
 
 2. **Visual Feedback Flow on Frontend (Fraud Handling)**
    - *Status*: Partially implemented.
-   - *Description*: It is necessary to develop screens/alerts in the interface (`Dashboard-solana-front`) to actively inform the user of the reasons for validation failure (e.g., reading audit logs returned by the backend pointing out `FRAUD_CHANNEL` or `INVALID_TRANSCRIPT`).
+   - *Description*: It is necessary to develop screens/alerts in the interface (`DApp_Frontend_colosseum_Hackathon`) to actively inform the user of the reasons for validation failure (e.g., reading audit logs returned by the backend pointing out `FRAUD_CHANNEL` or `INVALID_TRANSCRIPT`).
 
 3. **Oracle Deployment and Testing on Real Network/Devnet**
    - *Status*: Pending.

@@ -69,7 +69,7 @@ flowchart TD
 |-----------|------|---------|
 | Solana Program | [programs_colosseum_Hackathon/](programs_colosseum_Hackathon/) | Anchor smart contract with 12 instructions |
 | AI Oracle Agent | [AI_agente-Oracle_colosseum_Hackathon/](AI_agente-Oracle_colosseum_Hackathon/) | Off-chain validation & metrics pipeline |
-| Frontend | [Dashboard-solana-front/](Dashboard-solana-front/) | Next.js web application |
+| Frontend | [DApp_Frontend_colosseum_Hackathon/](DApp_Frontend_colosseum_Hackathon/) | Next.js web application |
 
 ---
 
@@ -101,7 +101,7 @@ docker compose up --build
 cd programs_colosseum_Hackathon && anchor build && anchor deploy
 
 # Install & run frontend
-cd Dashboard-solana-front && npm install && npm run dev
+cd DApp_Frontend_colosseum_Hackathon && npm install && npm run dev
 
 # Install & run oracle agent
 cd AI_agente-Oracle_colosseum_Hackathon && pip install -r requirements.txt && python -m src.main
@@ -121,8 +121,8 @@ cd AI_agente-Oracle_colosseum_Hackathon && pip install -r requirements.txt && py
 │   ├── src/                          # Agent source code
 │   ├── scripts/                      # Backfill & utilities
 │   └── docs/                         # Agent documentation
-├── Dashboard-solana-front/           # Next.js frontend
-├── core-api/                         # REST API backend
+├── DApp_Frontend_colosseum_Hackathon/ # Next.js frontend
+├── DB_CORE_API_colosseum_Hackathon/   # REST API backend
 ├── docker-compose.yaml               # Orchestration
 └── setup.sh                          # Environment setup
 ```

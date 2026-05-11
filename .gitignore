@@ -33,3 +33,6 @@ env/
 # Project specific
 .opencode/
 services.conf
+
+# Stale directories (old submodule paths)
+Dashboard-solana-front/
