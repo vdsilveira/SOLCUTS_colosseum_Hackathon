@@ -49,6 +49,7 @@ services:
       - HTTPS_PROXY=${HTTPS_PROXY:-}
       - WHISPER_MODEL_SIZE=${WHISPER_MODEL_SIZE:-tiny}
       - WHISPER_DEVICE=${WHISPER_DEVICE:-cpu}
+      - CORE_API_URL=http://core-api:8001/api/v1
     volumes:
       - oracle-data:/app/data
     restart: unless-stopped
