@@ -40,6 +40,7 @@ git submodule update --init --recursive
 - **Frames**: ≥3 of 5 must pass (SSIM ≥0.70)
 - **Wrong channel**: No points, log reason, frontend alert
 - **Foreign video**: Flag for manual slash + ban user
+- **Poll interval**: 10800s (3 hours)
 
 ### Environment
 - `.env` files should never be committed (each submodule has its own)
