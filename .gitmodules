@@ -1,16 +1,16 @@
 [submodule "colosseum-hackathon"]
 	path = programs_colosseum_Hackathon
-	url = git@github.com:vdsilveira/programs_colosseum_Hackathon.git
+	url = https://github.com/vdsilveira/programs_colosseum_Hackathon.git
 [submodule "AI_agente-Oracle_colosseum_Hackathon"]
 	path = AI_agente-Oracle_colosseum_Hackathon
-	url = git@github.com:vdsilveira/AI_agente-Oracle_colosseum_Hackathon.git
+	url = https://github.com/vdsilveira/AI_agente-Oracle_colosseum_Hackathon.git
 
 [submodule "API_videos_colosseum_Hackathon"]
 	path = API_videos_colosseum_Hackathon
-	url = git@github.com:Alisson-tech/Backend-views-Solana.git
+	url = https://github.com/Alisson-tech/Backend-views-Solana.git
 [submodule "DB_CORE_API_colosseum_Hackathon"]
 	path = DB_CORE_API_colosseum_Hackathon
-	url = git@github.com:rayangustavo/solcuts-core-api.git
+	url = https://github.com/rayangustavo/solcuts-core-api.git
 [submodule "DApp_Frontend_colosseum_Hackathon"]
 	path = DApp_Frontend_colosseum_Hackathon
 	url = https://github.com/Alisson-tech/Dashboard-solana-front
